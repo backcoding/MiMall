@@ -13,7 +13,8 @@
           <a href="javascript:;" v-if="!username" @click="login">登陆</a>
           <a href="javascript:;">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart()">
-            <span class="icon-cart"></span>购物车
+            <span class="icon-cart"></span>
+            购物车({{cartCount}})
           </a>
         </div>
       </div>
@@ -31,7 +32,7 @@
                 <li class="product" v-for="(item,index) in phoneList" :key="index">
                   <a :href="'/#/product/'+item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage" :alt="item.subtitle" />
+                      <img v-lazy="item.mainImage" :alt="item.subtitle" />
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{item.price | currency}}</div>
@@ -50,7 +51,7 @@
                 <li class="product">
                   <a href="javascript:;">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt />
                     </div>
                     <div class="pro-name">小米9</div>
                     <div class="pro-price">2999元</div>
@@ -59,7 +60,7 @@
                 <li class="product">
                   <a href="javascript:;">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-2.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-2.jpg'" alt />
                     </div>
                     <div class="pro-name">小米9</div>
                     <div class="pro-price">2999元</div>
@@ -68,7 +69,7 @@
                 <li class="product">
                   <a href="javascript:;">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-3.png" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-3.png'" alt />
                     </div>
                     <div class="pro-name">小米9</div>
                     <div class="pro-price">2999元</div>
@@ -77,7 +78,7 @@
                 <li class="product">
                   <a href="javascript:;">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-4.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-4.jpg'" alt />
                     </div>
                     <div class="pro-name">小米9</div>
                     <div class="pro-price">2999元</div>
@@ -86,7 +87,7 @@
                 <li class="product">
                   <a href="javascript:;">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-5.jpg" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-5.jpg'" alt />
                     </div>
                     <div class="pro-name">小米9</div>
                     <div class="pro-price">2999元</div>
@@ -95,7 +96,7 @@
                 <li class="product">
                   <a href="javascript:;">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-6.png" alt />
+                      <img v-lazy="'/imgs/nav-img/nav-3-6.png'" alt />
                     </div>
                     <div class="pro-name">小米9</div>
                     <div class="pro-price">2999元</div>
@@ -117,14 +118,24 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'nav-header',
   data() {
     return {
-      username: '',
       phoneList: []
     }
   },
+  computed: {
+    // username() {
+    //   return this.$store.state.username
+    // },
+    // cartCount() {
+    //   return this.$store.state.cartCount
+    // }
+    ...mapState(['username', 'cartCount'])
+  },
+
   filters: {
     currency(val) {
       if (!val) return '0.00'
@@ -183,6 +194,7 @@ export default {
         background-color: #ff6600;
         text-align: center;
         color: #ffffff;
+        margin-right: 0;
         .icon-cart {
           @include bgImg(16px, 12px, '/imgs/icon-cart-checked.png');
           margin-right: 4px;
@@ -221,7 +233,7 @@ export default {
       }
       .header-menu {
         display: inline-block;
-        widows: 643px;
+        width: 643px;
         padding-left: 209px;
         .item-menu {
           display: inline-block;
