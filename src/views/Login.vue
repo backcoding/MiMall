@@ -58,10 +58,15 @@ export default {
           password
         })
         .then(res => {
-          this.$cookie.set('userId', res.id, { expires: '1M' })
+          this.$cookie.set('userId', res.id, { expires: 'Session' })
           // this.$store.dispatch('sevaUserName', res.username)
           this.sevaUserName(res.username)
-          this.$router.push('/index')
+          this.$router.push({
+            name: 'index',
+            params: {
+              from: 'login'
+            }
+          })
         })
     },
     ...mapActions(['sevaUserName']),
@@ -74,8 +79,7 @@ export default {
           email: '382418238@163.com'
         })
         .then(() => {
-          // this.$message.success('注册成功')
-          alert('注册成功！')
+          this.$message.success('注册成功')
         })
     }
   },

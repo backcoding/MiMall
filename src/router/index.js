@@ -49,7 +49,7 @@ const routes = [
     component: Order,
     children: [
       {
-        path: 'lsit',
+        path: 'list',
         name: 'order-list',
         component: OrderList
       },

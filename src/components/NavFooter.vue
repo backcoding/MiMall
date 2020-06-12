@@ -5,13 +5,13 @@
       <p>小米商城</p>
     </div>
     <div class="footer-link">
-      <a href>Back个人主页</a>
+      <a href="javascript:;">Back个人主页</a>
       <span>|</span>
-      <a href>Vue全栈课程</a>
+      <a href="javascript:;">Vue全栈课程</a>
       <span>|</span>
-      <a href>React全家桶课程</a>
+      <a href="javascript:;">React全家桶课程</a>
       <span>|</span>
-      <a href>微信支付专项课程（H5+小程序+Node+Mongo）</a>
+      <a href="javascript:;">微信支付专项课程（H5+小程序+Node+Mongo）</a>
     </div>
     <div class="copyright">
       Copyright ©2019
