@@ -12,7 +12,7 @@
           <a href="javascript:;" v-if="username">{{username}}</a>
           <a href="javascript:;" v-if="!username" @click="login">登陆</a>
           <a href="javascript:;" v-if="username" @click="logout">退出</a>
-          <a href="javascript:;">我的订单</a>
+          <a href="/#/order/list">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart()">
             <span class="icon-cart"></span>
             购物车({{cartCount}})
@@ -128,12 +128,6 @@ export default {
     }
   },
   computed: {
-    // username() {
-    //   return this.$store.state.username
-    // },
-    // cartCount() {
-    //   return this.$store.state.cartCount
-    // }
     ...mapState(['username', 'cartCount'])
   },
 

@@ -1,5 +1,10 @@
 <template>
   <div class="order-confirm">
+    <order-header title="订单确认">
+      <template v-slot:tip>
+        <span>请认真填写收货地址</span>
+      </template>
+    </order-header>
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +93,7 @@
                   <span>{{item.productName}}</span>
                 </div>
                 <div class="good-price">{{item.productPrice}}元x{{item.quantity}}</div>
-                <div class="good-total">{{item.cartTotalPrice}}元</div>
+                <div class="good-total">{{item.productTotalPrice}}元</div>
               </li>
             </ul>
           </div>
@@ -188,6 +193,7 @@
 </template>
 
 <script>
+import OrderHeader from './../components/OrderHeader'
 import Modal from './../components/Modal'
 export default {
   name: 'orderconfirm',
@@ -321,6 +327,7 @@ export default {
     }
   },
   components: {
+    OrderHeader,
     Modal
   }
 }

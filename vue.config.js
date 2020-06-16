@@ -13,8 +13,9 @@ module.exports = {
       }
     }
   },
-  // productionSourceMap: true,
-  // chainWebpack: (config) => {
-  //   config.plugins.delete('prefetch');
-  // }
+  productionSourceMap: false,
+  // 删除预加载，真正的按需
+  chainWebpack: (config) => {
+    config.plugins.delete('prefetch');
+  }
 }

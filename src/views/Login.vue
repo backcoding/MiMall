@@ -24,21 +24,47 @@
             <a href="javascript:;" class="btn" @click="login">登录</a>
           </div>
           <div class="tips">
-            <div class="sms" @click="register">手机短信登录/注册</div>
+            <div class="sms" @click="showPayModal=true">手机短信登录/注册</div>
             <div class="reg">
-              立即注册
+              <a @click="showPayModal=true">立即注册</a>
               <span>|</span>忘记密码？
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- 注册弹窗 -->
+    <modal
+      title="注册"
+      btnType="3"
+      :showModal="showPayModal"
+      sureText="注册"
+      cancelText="取消"
+      @cancel="showPayModal=false"
+      @submit="register"
+    >
+      <template v-slot:body>
+        <el-form :model="loginForm" :rules="loginFormRules" status-icon ref="loginFormRef">
+          <el-form-item label="用户" prop="regusername">
+            <el-input v-model="loginForm.regusername"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="regpassword">
+            <el-input type="password" v-model="loginForm.regpassword"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="loginForm.email"></el-input>
+          </el-form-item>
+        </el-form>
+      </template>
+    </modal>
     <nav-footer />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import { Form, FormItem, Input } from 'element-ui'
+import Modal from './../components/Modal'
 import NavFooter from '../components/NavFooter'
 export default {
   name: 'login',
@@ -46,7 +72,32 @@ export default {
     return {
       username: '',
       password: '',
-      userId: ''
+      userId: '',
+      showPayModal: false,
+      loginForm: {
+        regusername: '',
+        regpassword: '',
+        email: ''
+      },
+
+      loginFormRules: {
+        regusername: [
+          { required: true, message: '请输入用户名称', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+        ],
+        regpassword: [
+          { required: true, message: '请输入登陆密码', trigger: 'blur' },
+          { min: 5, max: 15, message: '长度在 5 到 15 个字符', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          {
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
+          }
+        ]
+      }
     }
   },
   methods: {
@@ -72,19 +123,28 @@ export default {
     ...mapActions(['sevaUserName']),
     //注册
     register() {
-      this.axios
-        .post('/user/register', {
-          username: 'back',
-          password: 'back',
-          email: '382418238@163.com'
-        })
-        .then(() => {
-          this.$message.success('注册成功')
-        })
+      this.$refs.loginFormRef.validate(valid => {
+        if (!valid) return
+        this.axios
+          .post('/user/register', {
+            username: this.loginForm.regusername,
+            password: this.loginForm.regpassword,
+            email: this.loginForm.email
+          })
+
+          .then(() => {
+            this.showPayModal = false
+            this.$message.success('注册成功')
+          })
+      })
     }
   },
   components: {
-    NavFooter
+    NavFooter,
+    Modal,
+    [Form.name]: Form,
+    [FormItem.name]: FormItem,
+    [Input.name]: Input
   }
 }
 </script>
@@ -162,6 +222,12 @@ export default {
         }
       }
     }
+  }
+  .el-form-item__content {
+    line-height: 40px;
+    display: inline-block;
+    width: 348px;
+    margin-bottom: 20px;
   }
 }
 </style>
